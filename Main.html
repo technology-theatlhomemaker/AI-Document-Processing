@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <base target="_top">
+      <script>
+         function callVisionAPI(){
+           var status = document.getElementById('status'); 
+           var imgUrl = document.getElementById('imgUrl');
+           status.innerHTML = "<b>Calling VISION API with imgUrl: </b>" + imgUrl.value;
+           console.log("Calling Vision API w/ imgUrl: " + imgUrl.value);
+           google.script.run
+             .withFailureHandler(function(error) {
+               status.innerHtml = 'Error calling server function makeRequest: ' + error;
+             })
+             .withSuccessHandler(function(result){
+             console.log('Raw response from Vision API: ' + result);
+               var JResp =  JSON.parse(result); 
+               showResponse(JResp, imgUrl.value);
+           }).makeRequest(imgUrl.value);  
+         }
+         
+         
+         function showResponse(JSON, imgUrl){
+           var status = document.getElementById('status');
+           var imgTag = document.getElementById('ImgTag');
+           if (typeof(JSON['responses'][0]['textAnnotations']) != "undefined"){
+             var textResp = JSON['responses'][0]['textAnnotations'][0];
+             var description = textResp["description"];
+             var locale = textResp['locale'];    
+             status.innerHTML = '<b>Converted Text:</b> ' + description;
+             imgTag.src = imgUrl;      
+           } else
+             status.innerHTML = 'Unable to analyze text. Try an image with better contrast.';
+         }
+             
+      </script>
+   </head>
+   <body>
+      <h2>Google Cloud Vision API & G Suite</h2>
+      <h3>Document Text Detection (OCR)</h3>
+      <div>
+         <input id="imgUrl" type="text" placeholder="http://<<URL of image>>" size="80"/>
+         <button onClick="callVisionAPI()">Call Vision API</button>
+      </div>
+      <br/>
+      <div>
+         <image id="ImgTag" height="400" width="600"/>
+      </div>
+      <br/>
+      <div id="status"></div>
+   </body>
+</html>
