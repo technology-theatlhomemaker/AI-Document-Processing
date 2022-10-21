@@ -1,5 +1,5 @@
 
-let APIKey = 'AIzaSyDpeMPC6IHbuhjESFPBW9lsdMGgiX7M5xU';
+let APIKey = '';
 
 function doGet() {
   return HtmlService.createTemplateFromFile('Main').evaluate();
