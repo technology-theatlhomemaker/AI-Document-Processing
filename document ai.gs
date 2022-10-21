@@ -3,9 +3,9 @@ function test() {
 
   let endPoint = "https://us-documentai.googleapis.com"
   let version = '/v1/'
-  let projectId = 'document-processing-365723'
+  let projectId = ''
   let loction = 'us'
-  let processorId = '77f8d16cd51b6381'
+  let processorId = ''
   let parent = 'projects/' + projectId + '/locations/' + loction
   let action = ':fetchProcessorTypes'
   let response = UrlFetchApp.getRequest(endPoint + version + parent + action)
@@ -14,9 +14,9 @@ function test() {
 
 function callDocumentAI(file) {
   let endPoint = "https://us-documentai.googleapis.com"
-  let projectId = 'document-processing-365723'
+  let projectId = ''
   let loction = 'us'
-  let processorId = '77f8d16cd51b6381'
+  let processorId = ''
 
   let requestBody = {
     "skipHumanReview": false,
